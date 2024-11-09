@@ -2,8 +2,8 @@
 
 ## Link utili dalla documentazione di Kubernetes
 
-[Kubernetes Doc](https://kubernetes.io/it/docs/home/)
-[kubectl quick reference](https://kubernetes.io/docs/reference/kubectl/quick-reference/)
+- [Kubernetes Doc](https://kubernetes.io/it/docs/home/)
+- [kubectl quick reference](https://kubernetes.io/docs/reference/kubectl/quick-reference/)
 
 ## Primi passi
 
@@ -51,7 +51,9 @@ cache HTTP e bilanciatore di carico.
 
 
 3. Applichiamo il manifest di Deployment:
-`kubectl apply -f https://raw.githubusercontent.com/kubernetes/website/main/content/en/examples/application/deployment.yaml`
+```
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/website/main/content/en/examples/application/deployment.yaml`
+```
 4. Esaminiamo il Deployment e i Pod:
 - `kubectl describe deployment nginx-deployment`
 - `kubectl get deployment` 
@@ -63,17 +65,25 @@ cache HTTP e bilanciatore di carico.
 Poichè il nome del Deployment del nuovo manifest coincide con il nome del Deployment già creato,
 il nuovo manifest editerà quello esistente.
 In particolare, aggiornerà l'immagine di Nginx nel container.
-`kubectl apply -f https://raw.githubusercontent.com/kubernetes/website/main/content/en/examples/application/deployment-update.yaml`
+```
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/website/main/content/en/examples/application/deployment-update.yaml`
+```
 6. Editiamo il numero di pod che vogliamo il Deployment crei, aumentando le repliche dei Pod da 2 a 3
-`kubectl scale deployment nginx-deployment --replicas=3`
+```kubectl scale deployment nginx-deployment --replicas=3```
 7. Controlliamo che c'è un pod in più
-`kubectl get pods`
+```kubectl get pods```
 8. Vediamo la pagina `index.html` di uno dei Pod di Nginx, eseguendo
-`curl <IP>` 
+```
+curl <IP>
+``` 
 dove `<IP>` è uno degli indirizzi IP che vediamo nella colonna IP, eseguendo
-`kubectl get pods -o wide`
+```
+kubectl get pods -o wide
+```
 9. Editiamo `index.html`, entrando nel pod
-`kubectl exec -it <pod_name> -- bash`
+```
+kubectl exec -it <pod_name> -- bash
+```
 Il parametro `-i` serve per passare lo `stdin` al container.
 Il parametro `-t` serve per dire che lo stdin è tty.
 Un dispositivo terminale tty è un dispositivo di 
@@ -82,12 +92,23 @@ per carattere. La comunicazione tra i dispositivi terminali e i programmi che le
 e scrivono a loro è controllata dall'interfaccia tty.
 
 Editiamo `index.html`.
-`cd /usr/share/nginx/html/`
-`echo "Linux Day" > index.html`
-10. Usciamo dal Pod, eseguendo `exit`
-11. Eseguiamo di nuovo `curl <IP>` scegliendo come IP quello relativo al Pod che abbiamo eseguito in precedenza
+```
+cd /usr/share/nginx/html/
+echo "Linux Day" > index.html
+```
+10. Usciamo dal Pod, eseguendo 
+```
+exit
+```
+11. Eseguiamo di nuovo 
+```
+curl <IP>
+``` 
+scegliendo come IP quello relativo al Pod che abbiamo eseguito in precedenza
 12. Cancelliamo il Deployment
-`kubectl delete deployment nginx-deployment` e verifichiamo non ci sono più Pod e Deployment
+```kubectl delete deployment nginx-deployment``` 
+e verifichiamo non ci sono più Pod e Deployment.
+Che comando useresti?
 
 ## Suggerimenti
 - Durante l'esercitazione, puoi usare `kubectl` puoi sempre usare il suo alias `k`.
