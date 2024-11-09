@@ -19,7 +19,7 @@ Useremo un ambiente sandbox (gratuito per la prima ora consecutiva), disponibile
 [killercoda](https://killercoda.com).
 
 1. Facciamo login, tramite Github account o email, alla [sandox](https://killercoda.com/playgrounds/scenario/kubernetes)
-2. Esploriamo il Deployment
+2. Esploriamo il manifest di Deployment, prima di applicarlo
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -42,6 +42,14 @@ spec:
             - containerPort: 80
  
 ```
+
+Come possiamo vedere leggendo il manifest, faremo il deploy di due repliche di pod con immagini di Nginx
+nel container.
+Non interessante ai fini dell'esercitazione, Nginx, pronunciato “engine-ex”, è un web server open source 
+che, a cominciare dal suo successo iniziale come server, è ora utilizzato anche come proxy inverso, 
+cache HTTP e bilanciatore di carico.
+
+
 3. Applichiamo il manifest di Deployment:
 `kubectl apply -f https://raw.githubusercontent.com/kubernetes/website/main/content/en/examples/application/deployment.yaml`
 4. Esaminiamo il Deployment e i Pod:
@@ -65,9 +73,23 @@ In particolare, aggiornerà l'immagine di Nginx nel container.
 dove `<IP>` è uno degli indirizzi IP che vediamo nella colonna IP, eseguendo
 `kubectl get pods -o wide`
 9. Editiamo `index.html`, entrando nel pod
-`k exec -it <pod_name> -- bash`
+`kubectl exec -it <pod_name> -- bash`
+Il parametro `-i` serve per passare lo `stdin` al container.
+Il parametro `-t` serve per dire che lo stdin è tty.
+Un dispositivo terminale tty è un dispositivo di 
+carattere che esegue input e output su base di carattere 
+per carattere. La comunicazione tra i dispositivi terminali e i programmi che leggono 
+e scrivono a loro è controllata dall'interfaccia tty.
+
+Editiamo `index.html`.
 `cd /usr/share/nginx/html/`
 `echo "Linux Day" > index.html`
-10. Eseguiamo di nuovo `curl <IP>` scegliendo come IP quello relativo al Pod che abbiamo eseguito in precedenza
-11. Cancelliamo il Deployment
+10. Usciamo dal Pod, eseguendo `exit`
+11. Eseguiamo di nuovo `curl <IP>` scegliendo come IP quello relativo al Pod che abbiamo eseguito in precedenza
+12. Cancelliamo il Deployment
 `kubectl delete deployment nginx-deployment` e verifichiamo non ci sono più Pod e Deployment
+
+## Suggerimenti
+- Durante l'esercitazione, puoi usare `kubectl` puoi sempre usare il suo alias `k`.
+- Puoi sempre chiedere, tramite `kubectl` di "spiegarti" come è fatta una sua risorsa
+Es. `kubectl explain deployment`
