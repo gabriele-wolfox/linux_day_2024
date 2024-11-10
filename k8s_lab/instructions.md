@@ -116,8 +116,7 @@ nginx-deployment-d556bf558-866vr    0/1     Completed           0          3m30s
 ```shell 
 kubectl get pods
 ```
-10. 
-Prendiamo l'indirizzo IP di uno dei Pod di Nginx dalla colonna IP, eseguendo
+10.Prendiamo l'indirizzo IP di uno dei Pod di Nginx dalla colonna IP, eseguendo
 ```shell
 kubectl get pods -o wide
 ```
@@ -156,7 +155,7 @@ e verifichiamo non ci sono più Pod e Deployment.
 Che comando usiamo?
 
 ## Suggerimenti e convenzioni
-- Durante l'esercitazione, puoi usare `kubectl` puoi sempre usare il suo alias `k`.
+- Durante l'esercitazione, puoi usare `kubectl` puoi sempre usare il suo alias `k`
 - Puoi sempre chiedere, tramite `kubectl` di "spiegarti" come è fatta una sua risorsa
 Es. `kubectl explain deployment`
 - Nell'ambito dell'esercitazione, YAML e manifest sono sinonimi
