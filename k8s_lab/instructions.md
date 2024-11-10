@@ -116,7 +116,7 @@ nginx-deployment-d556bf558-866vr    0/1     Completed           0          3m30s
 ```shell 
 kubectl get pods
 ```
-10.Prendiamo l'indirizzo IP di uno dei Pod di Nginx dalla colonna IP, eseguendo
+10. Prendiamo l'indirizzo IP di uno dei Pod di Nginx dalla colonna IP, eseguendo
 ```shell
 kubectl get pods -o wide
 ```
