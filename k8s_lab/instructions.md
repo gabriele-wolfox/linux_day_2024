@@ -3,17 +3,18 @@
 ## Link utili dalla documentazione di Kubernetes
 
 - [Kubernetes Doc](https://kubernetes.io/it/docs/home/)
+- [Kubernetes Components](https://kubernetes.io/docs/concepts/overview/components/)
 - [kubectl quick reference](https://kubernetes.io/docs/reference/kubectl/quick-reference/)
 
 ## Primi passi
 
 In questa esercitazione di laboratorio prenderemo confidenza con Kubernetes tramite `kubectl`,
-un command line tool usato da amministratori per controllare i cluster Kubernetes.
+un command line tool usato da amministratori per controllare i cluster Kubernetes, interagendo con l'Api Server.
 
 In particolare, eseguiremo passo dopo passo un 
 [esempio della documentazione](https://kubernetes.io/docs/tasks/run-application/run-stateless-application-deployment/), 
 relativo all'esecuzione di un'applicazione stateless su Kubernetes,
-tramite l'applicazione del manifest di Deplyoment.
+tramite l'applicazione del manifest di Deployment.
 
 Useremo un ambiente sandbox (gratuito per la prima ora consecutiva), disponibile su
 [killercoda](https://killercoda.com).
@@ -42,75 +43,120 @@ spec:
             - containerPort: 80
  
 ```
-
 Come possiamo vedere leggendo il manifest, faremo il deploy di due repliche di pod con immagini di Nginx
 nel container.
 Non interessante ai fini dell'esercitazione, Nginx, pronunciato “engine-ex”, è un web server open source 
 che, a cominciare dal suo successo iniziale come server, è ora utilizzato anche come proxy inverso, 
 cache HTTP e bilanciatore di carico.
-
-
 3. Applichiamo il manifest di Deployment:
-```
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/website/main/content/en/examples/application/deployment.yaml`
+```shell
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/website/main/content/en/examples/application/deployment.yaml
 ```
 4. Esaminiamo il Deployment e i Pod:
-- `kubectl describe deployment nginx-deployment`
-- `kubectl get deployment` 
-- `kubectl get deployment nginx-deployment -o yaml`
-- `kubectl get pods` 
-- `kubectl get pods -l app=nginx`
-- `kubectl get pod <pod_name> -o yaml`
+```shell
+kubectl describe deployment nginx-deployment
+kubectl get deployment
+kubectl get deployment nginx-deployment -o yaml
+kubectl get pods
+kubectl get pods -l app=nginx
+```
+Dal risultato dell'ultimo comando, otteniamo i nomi dei Pod.
+Per ciascuno dei pod, possiamo invocare l'API Server ed esaminare lo YAML del Pod
+```shell
+kubectl get pod <pod_name> -o yaml
+```
 5. Applichiamo un altro manifest per il Deployment. 
-Poichè il nome del Deployment del nuovo manifest coincide con il nome del Deployment già creato,
+Poiché il nome del Deployment del nuovo manifest coincide con il nome del Deployment già creato,
 il nuovo manifest editerà quello esistente.
 In particolare, aggiornerà l'immagine di Nginx nel container.
+```shell
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/website/main/content/en/examples/application/deployment-update.yaml
 ```
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/website/main/content/en/examples/application/deployment-update.yaml`
+6. Se vogliamo vedere i Pod vecchi venir terminati e i nuovi ricreati con il cambiamento che faremo a breve, 
+possiamo aprire una nuova Tab cliccando sul `+`accanto a `Tab1`. 
+Dopo esserci spostati sulla `Tab2`, possiamo monitorare i pod esistenti eseguendo
+```shell
+kubectl get pods -w
 ```
-6. Editiamo il numero di pod che vogliamo il Deployment crei, aumentando le repliche dei Pod da 2 a 3
-```kubectl scale deployment nginx-deployment --replicas=3```
-7. Controlliamo che c'è un pod in più
-```kubectl get pods```
-8. Vediamo la pagina `index.html` di uno dei Pod di Nginx, eseguendo
+7. Torniamo sulla `Tab1` ed editiamo il numero di pod che vogliamo il Deployment crei, 
+aumentando le repliche dei Pod da 2 a 3
+```shell 
+kubectl scale deployment nginx-deployment --replicas=3
 ```
-curl <IP>
-``` 
-dove `<IP>` è uno degli indirizzi IP che vediamo nella colonna IP, eseguendo
+8. Se torniamo nella `Tab2`, vediamo Pod terminati e nuovi, appena creati.
+L'output sarà simile al seguente:
+
+```shell
+controlplane $ kubectl get pods -w
+NAME                               READY   STATUS    RESTARTS   AGE
+nginx-deployment-d556bf558-866vr   1/1     Running   0          2m50s
+nginx-deployment-d556bf558-p9nr8   1/1     Running   0          2m50s
+nginx-deployment-7dbfbc79cf-dfpxt   0/1     Pending   0          0s
+nginx-deployment-7dbfbc79cf-dfpxt   0/1     Pending   0          0s
+nginx-deployment-7dbfbc79cf-dfpxt   0/1     ContainerCreating   0          0s
+nginx-deployment-7dbfbc79cf-dfpxt   0/1     ContainerCreating   0          0s
+nginx-deployment-7dbfbc79cf-dfpxt   1/1     Running             0          5s
+nginx-deployment-d556bf558-p9nr8    1/1     Terminating         0          3m23s
+nginx-deployment-7dbfbc79cf-xrb9t   0/1     Pending             0          0s
+nginx-deployment-7dbfbc79cf-xrb9t   0/1     Pending             0          0s
+nginx-deployment-7dbfbc79cf-xrb9t   0/1     ContainerCreating   0          0s
+nginx-deployment-d556bf558-p9nr8    1/1     Terminating         0          3m23s
+nginx-deployment-d556bf558-p9nr8    0/1     Completed           0          3m23s
+nginx-deployment-7dbfbc79cf-xrb9t   0/1     ContainerCreating   0          1s
+nginx-deployment-d556bf558-p9nr8    0/1     Completed           0          3m24s
+nginx-deployment-d556bf558-p9nr8    0/1     Completed           0          3m24s
+nginx-deployment-7dbfbc79cf-xrb9t   1/1     Running             0          6s
+nginx-deployment-d556bf558-866vr    1/1     Terminating         0          3m29s
+nginx-deployment-d556bf558-866vr    1/1     Terminating         0          3m30s
+nginx-deployment-d556bf558-866vr    0/1     Completed           0          3m30s
+nginx-deployment-d556bf558-866vr    0/1     Completed           0          3m30s
+nginx-deployment-d556bf558-866vr    0/1     Completed           0          3m30s
 ```
+9. Controlliamo che c'è un pod in più
+```shell 
+kubectl get pods
+```
+10. 
+Prendiamo l'indirizzo IP di uno dei Pod di Nginx dalla colonna IP, eseguendo
+```shell
 kubectl get pods -o wide
 ```
-9. Editiamo `index.html`, entrando nel pod
-```
+11. Se eseguiamo
+```shell
+curl <IP>
+``` 
+e copiamo il risultato in un tool per visualizzare HTML (es. [OneCompiler](htpps://onecompiler.com/html)) cosa otteniamo?
+12. Entriamo nel pod
+```shell
 kubectl exec -it <pod_name> -- bash
 ```
 Il parametro `-i` serve per passare lo `stdin` al container.
 Il parametro `-t` serve per dire che lo stdin è tty.
-Un dispositivo terminale tty è un dispositivo di 
-carattere che esegue input e output su base di carattere 
-per carattere. La comunicazione tra i dispositivi terminali e i programmi che leggono 
-e scrivono a loro è controllata dall'interfaccia tty.
-
-Editiamo `index.html`.
-```
+Un dispositivo terminale tty è un terminale virtuale o console virtuale, 
+cioè la combinazione di tastiera e schermo come interfaccia per interagire con un elaboratore.
+13. Editiamo `index.html`.
+```shell
 cd /usr/share/nginx/html/
 echo "Linux Day" > index.html
 ```
-10. Usciamo dal Pod, eseguendo 
-```
+14. Usciamo dal Pod, eseguendo 
+```shell
 exit
 ```
-11. Eseguiamo di nuovo 
-```
+15. Eseguiamo di nuovo 
+```shell
 curl <IP>
 ``` 
-scegliendo come IP quello relativo al Pod che abbiamo eseguito in precedenza
-12. Cancelliamo il Deployment
+Scegliamo come IP quello relativo al Pod che abbiamo invocato con `curl` in precedenza.
+Puoi trovare il comando nella history della shell, andando indietro con la freccia in alto, 
+poiché hai già eseguito il comando al punto 11
+16. Cancelliamo il Deployment
 ```kubectl delete deployment nginx-deployment``` 
 e verifichiamo non ci sono più Pod e Deployment.
-Che comando useresti?
+Che comando usiamo?
 
-## Suggerimenti
+## Suggerimenti e convenzioni
 - Durante l'esercitazione, puoi usare `kubectl` puoi sempre usare il suo alias `k`.
 - Puoi sempre chiedere, tramite `kubectl` di "spiegarti" come è fatta una sua risorsa
 Es. `kubectl explain deployment`
+- Nell'ambito dell'esercitazione, YAML e manifest sono sinonimi
