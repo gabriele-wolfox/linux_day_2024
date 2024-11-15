@@ -68,13 +68,13 @@ kubectl get pod <pod_name> -o yaml
 5. Nello step successivo a questo, i pod verranno ricreati poiché cambieremo la versione dell'immagine Nginx nei container.
 Se vogliamo vedere come cambia lo stato dei Pod, possiamo metterci "in watch" in un'altra Tab. 
 Apriamo una nuova Tab cliccando sul `+`accanto a `Tab1`. 
-Dopo esserci spostati sulla `Tab2`, possiamo monitorare i pod esistenti eseguendo
+Dopo esserci spostati sulla `Tab2`, possiamo monitorare i pod esistenti eseguendo il solito comando `kubectl get pods`, 
+ma con `-w`come opzione, che sta per "watch".
+Il comando resta in ascolto e non ci ritorna la shell, finché non lo abortiamo,
+ad esempio con `Ctrl + C`.
 ```shell
 kubectl get pods -w
 ```
-e l'opzione -w sta proprio per "watch".
-Il comando resta in ascolto e non ci ritorna la shell, finché non lo abortiamo,
-ad esempio con `Ctrl + C`.
 6. Torniamo nella `Tab1` e applichiamo un altro manifest per il Deployment.
    Poiché il nome del Deployment del nuovo manifest coincide con il nome del Deployment già creato,
    il nuovo manifest editerà quello esistente.
