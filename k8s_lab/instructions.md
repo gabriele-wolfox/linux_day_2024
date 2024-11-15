@@ -65,27 +65,25 @@ Per ciascuno dei pod, possiamo invocare l'API Server ed esaminare lo YAML del Po
 ```shell
 kubectl get pod <pod_name> -o yaml
 ```
-5. Applichiamo un altro manifest per il Deployment. 
-Poiché il nome del Deployment del nuovo manifest coincide con il nome del Deployment già creato,
-il nuovo manifest editerà quello esistente.
-In particolare, aggiornerà l'immagine di Nginx nel container.
-```shell
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/website/main/content/en/examples/application/deployment-update.yaml
-```
-6. Se vogliamo vedere i Pod vecchi venir terminati e i nuovi ricreati con il cambiamento che faremo a breve, 
-possiamo aprire una nuova Tab cliccando sul `+`accanto a `Tab1`. 
+5. Nello step successivo a questo, i pod verranno ricreati poiché cambieremo la versione dell'immagine Nginx nei container.
+Se vogliamo vedere come cambia lo stato dei Pod, possiamo metterci "in watch" in un'altra Tab. 
+Apriamo una nuova Tab cliccando sul `+`accanto a `Tab1`. 
 Dopo esserci spostati sulla `Tab2`, possiamo monitorare i pod esistenti eseguendo
 ```shell
 kubectl get pods -w
 ```
-7. Torniamo sulla `Tab1` ed editiamo il numero di pod che vogliamo il Deployment crei, 
-aumentando le repliche dei Pod da 2 a 3
-```shell 
-kubectl scale deployment nginx-deployment --replicas=3
+e l'opzione -w sta proprio per "watch".
+Il comando resta in ascolto e non ci ritorna la shell, finché non lo abortiamo,
+ad esempio con `Ctrl + C`.
+6. Torniamo nella `Tab1` e applichiamo un altro manifest per il Deployment.
+   Poiché il nome del Deployment del nuovo manifest coincide con il nome del Deployment già creato,
+   il nuovo manifest editerà quello esistente.
+   In particolare, aggiornerà l'immagine di Nginx nel container.
+```shell
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/website/main/content/en/examples/application/deployment-update.yaml
 ```
-8. Se torniamo nella `Tab2`, vediamo Pod terminati e nuovi, appena creati.
+7. Se torniamo nella `Tab2`, vediamo Pod terminati e nuovi, appena creati.
 L'output sarà simile al seguente:
-
 ```shell
 controlplane $ kubectl get pods -w
 NAME                               READY   STATUS    RESTARTS   AGE
@@ -111,6 +109,11 @@ nginx-deployment-d556bf558-866vr    1/1     Terminating         0          3m30s
 nginx-deployment-d556bf558-866vr    0/1     Completed           0          3m30s
 nginx-deployment-d556bf558-866vr    0/1     Completed           0          3m30s
 nginx-deployment-d556bf558-866vr    0/1     Completed           0          3m30s
+```
+8. Torniamo nella `Tab1` ed editiamo il numero di pod che vogliamo il Deployment crei,
+   aumentando le repliche dei Pod da 2 a 3
+```shell 
+kubectl scale deployment nginx-deployment --replicas=3
 ```
 9. Controlliamo che c'è un pod in più
 ```shell 
