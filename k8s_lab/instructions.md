@@ -129,6 +129,7 @@ kubectl get pods -o wide
 curl <IP>
 ``` 
 e copiamo il risultato in un tool per visualizzare HTML (es. [OneCompiler](htpps://onecompiler.com/html)) cosa otteniamo?
+
 12. Entriamo nel pod
 ```shell
 kubectl exec -it <pod_name> -- bash
@@ -137,6 +138,7 @@ Il parametro `-i` serve per passare lo `stdin` al container.
 Il parametro `-t` serve per dire che lo stdin è tty.
 Un dispositivo terminale tty è un terminale virtuale o console virtuale, 
 cioè la combinazione di tastiera e schermo come interfaccia per interagire con un elaboratore.
+
 13. Editiamo `index.html`.
 ```shell
 cd /usr/share/nginx/html/
