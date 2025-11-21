@@ -48,6 +48,7 @@ Useremo un ambiente sandbox (gratuito per la prima ora consecutiva), disponibile
   Non interessante ai fini dell'esercitazione, Nginx, pronunciato “engine-ex”, è un web server open source 
   che, a cominciare dal suo successo iniziale come server, è ora utilizzato anche come proxy inverso, 
   cache HTTP e bilanciatore di carico.
+  
 3. Applichiamo il manifest di Deployment:
 ```shell
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/website/main/content/en/examples/application/deployment.yaml
