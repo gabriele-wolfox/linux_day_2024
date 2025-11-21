@@ -19,7 +19,7 @@ tramite l'applicazione del manifest di Deployment.
 Useremo un ambiente sandbox (gratuito per la prima ora consecutiva), disponibile su
 [killercoda](https://killercoda.com).
 
-1. Facciamo login, tramite Github account o email, alla [sandox](https://killercoda.com/playgrounds/scenario/kubernetes)
+1. Facciamo login, tramite Github account o email, alla [sandbox](https://killercoda.com/playgrounds/scenario/kubernetes)
 2. Esploriamo il manifest di Deployment, prima di applicarlo
 ```yaml
 apiVersion: apps/v1
