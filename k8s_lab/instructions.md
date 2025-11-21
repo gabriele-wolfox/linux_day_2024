@@ -152,11 +152,12 @@ curl <IP>
 ``` 
 Scegliamo come IP quello relativo al Pod che abbiamo invocato con `curl` in precedenza.
 Puoi trovare il comando nella history della shell, andando indietro con la freccia in alto, 
-poiché hai già eseguito il comando al punto 11
+poiché hai già eseguito il comando al punto 11.
+
 16. Cancelliamo il Deployment
 ```kubectl delete deployment nginx-deployment``` 
 e verifichiamo non ci sono più Pod e Deployment.
-Che comando usiamo?
+Che comando usiamo per quest'ultimo passaggio?
 
 ## Suggerimenti e convenzioni
 - Durante l'esercitazione, al posto di `kubectl` puoi sempre usare il suo alias `k`
