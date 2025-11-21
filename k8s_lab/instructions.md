@@ -21,33 +21,33 @@ Useremo un ambiente sandbox (gratuito per la prima ora consecutiva), disponibile
 
 1. Facciamo login, tramite Github account o email, alla [sandbox](https://killercoda.com/playgrounds/scenario/kubernetes)
 2. Esploriamo il manifest di Deployment, prima di applicarlo
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: nginx-deployment
-spec:
-  selector:
-    matchLabels:
-      app: nginx
-  replicas: 2 # tells deployment to run 2 pods matching the template
-  template:
-    metadata:
-      labels:
+  ```yaml
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: nginx-deployment
+  spec:
+    selector:
+      matchLabels:
         app: nginx
-    spec:
-      containers:
-        - name: nginx
-          image: nginx:1.14.2
-          ports:
-            - containerPort: 80
- 
-```
-Come possiamo vedere leggendo il manifest, faremo il deploy di due repliche di pod con immagini di Nginx
-nel container.
-Non interessante ai fini dell'esercitazione, Nginx, pronunciato “engine-ex”, è un web server open source 
-che, a cominciare dal suo successo iniziale come server, è ora utilizzato anche come proxy inverso, 
-cache HTTP e bilanciatore di carico.
+    replicas: 2 # tells deployment to run 2 pods matching the template
+    template:
+      metadata:
+        labels:
+          app: nginx
+      spec:
+        containers:
+          - name: nginx
+            image: nginx:1.14.2
+            ports:
+              - containerPort: 80
+   
+  ```
+  Come possiamo vedere leggendo il manifest, faremo il deploy di due repliche di pod con immagini di Nginx
+  nel container.
+  Non interessante ai fini dell'esercitazione, Nginx, pronunciato “engine-ex”, è un web server open source 
+  che, a cominciare dal suo successo iniziale come server, è ora utilizzato anche come proxy inverso, 
+  cache HTTP e bilanciatore di carico.
 3. Applichiamo il manifest di Deployment:
 ```shell
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/website/main/content/en/examples/application/deployment.yaml
