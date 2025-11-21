@@ -158,7 +158,7 @@ e verifichiamo non ci sono più Pod e Deployment.
 Che comando usiamo?
 
 ## Suggerimenti e convenzioni
-- Durante l'esercitazione, puoi usare `kubectl` puoi sempre usare il suo alias `k`
+- Durante l'esercitazione, al posto di `kubectl` puoi sempre usare il suo alias `k`
 - Puoi sempre chiedere, tramite `kubectl` di "spiegarti" come è fatta una sua risorsa
 Es. `kubectl explain deployment`
 - Nell'ambito dell'esercitazione, YAML e manifest sono sinonimi
